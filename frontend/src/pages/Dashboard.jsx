@@ -1,64 +1,47 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import GoalForm from '../components/GoalForm'
-import GoalItem from '../components/GoalItem'
-import Spinner from '../components/Spinner'
-import { getGoals, reset } from '../slices/goals/goalSlice'
-
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import ProblemBar from "../components/ProblemBar";
+import Spinner from "../components/Spinner";
+import { getProblems } from "../slices/problem/problemSlice";
 function Dashboard() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-  const { user } = useSelector((state) => state.auth) 
-  console.log(user)
+  const dispatch = useDispatch();
+  // const { user } = useSelector((state) => state.auth);
+  // console.log(user);
   // This useSelector is used for js but the useapp slector is used for TS
-  const { goals, isLoading, isError, message } = useSelector(
-    (state) => state.goals // This is a reducer
-  )
+  const { problems, isLoading, isError, message } = useSelector(
+    (state) => state.problems // This is a reducer
+  );
 
   useEffect(() => {
     if (isError) {
-      console.log(message)
+      console.log(message);
     }
 
-    if (!user) {
-      navigate('/login')
-    }
-
-    dispatch(getGoals())
-
-    return () => {
-      dispatch(reset())
-    }
-  }, [user, navigate, isError, message, dispatch])
+    dispatch(getProblems());
+    console.log(problems);
+  }, [isError, message, dispatch]);
 
   if (isLoading) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   return (
     <>
-      <section className='heading'>
-        <h1>Welcome {user && user.name}</h1>
-        <p>Goals Dashboard</p>
+      <section className="heading">
+        <h1>Problems</h1>
       </section>
 
-      <GoalForm />
-
-      <section className='content'>
-        {goals.length > 0 ? (
-          <div className='goals'>
-            {goals.map((goal) => (
-              <GoalItem key={goal._id} goal={goal} />
+      <section className="content">
+        {
+          <>
+            {problems.map((problem) => (
+              <ProblemBar key={problem._id} problem={problem} />
             ))}
-          </div>
-        ) : (
-          <h3>You have not set any goals</h3>
-        )}
+          </>
+        }
       </section>
     </>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

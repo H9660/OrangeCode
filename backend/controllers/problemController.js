@@ -78,10 +78,22 @@ const deleteProblem = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteAllProblems = asyncHandler(async (req, res) => {
+  try {
+    await Problem.deleteMany({});
+
+    res.status(200).send("All problems deleted");
+  } catch (err) {
+    console.error("Error deleting problem:", err);
+    res.status(500).send("Cannot delete the problem");
+  }
+});
+
 module.exports = {
   getProblem,
   getProblems,
   setProblem,
   updateProblem,
   deleteProblem,
+  deleteAllProblems
 };

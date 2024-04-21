@@ -89,13 +89,10 @@ h3 {
 }
 
 .heading {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 50px;
   padding: 0 20px;
-}
-
-.heading p {
   color: #ff5722;
 }
 
@@ -122,7 +119,7 @@ h3 {
 }
 
 .goal .close {
-  position: absolute;
+  position: relative;
   top: 10px;
   right: 15px;
   cursor: pointer;
@@ -130,14 +127,40 @@ h3 {
   background: none;
 }
 
-.form,
+.form {
+  width: 100%; /* Set the container width */
+  display: flex;
+  justify-content: center;
+}
 .content {
-  width: 30%;
-  margin: 20px auto;
-  background-color: #ff5722;
-  border-radius: 30px;
-  padding: 30px;
-  background-color: #ff5722;
+  width: 100%; /* Set the container width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar {
+  padding: 20px;
+  height: auto;
+  width: auto;
+  position: relative;
+  background-color: #FF5722; /* Set the background color */
+  border-radius: 20px; /* Create curved corners */
+  margin: 20px; /* Add gap between bars */
+}
+
+.bar-content {
+  position: relative; /* Make the container position relative */
+}
+
+.close {
+  position: absolute; /* Position the close button relative to its container */
+  top: -20px; /* Adjust top position as needed */
+  right: -20px; /* Adjust right position as needed */
+  width: 20px;
+  border-radius: 20px;
+  background-color: black;
+  color: white;
 }
 
 .form-group {
@@ -147,7 +170,7 @@ h3 {
 .form-group input,
 .form-group textarea,
 .form-group select {
-  width: 90%;
+  width: 100%;
   padding: 10px;
   border: 1px solid black;
   border-radius: 10px;
@@ -159,7 +182,8 @@ h3 {
   width: 50%;
   align-items: center;
 }
-#login, #register {
+#login,
+#register {
   text-align: center;
   display: block;
   margin: 0 auto;
