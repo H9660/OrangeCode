@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProblemBar from "../components/ProblemBar";
 import Spinner from "../components/Spinner";
-import { getProblems } from "../slices/problem/problemSlice";
+import { getProblems, createProblem } from "../slices/problem/problemSlice";
 function Dashboard() {
   const dispatch = useDispatch();
-  // const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   // console.log(user);
   // This useSelector is used for js but the useapp slector is used for TS
   const { problems, isLoading, isError, message } = useSelector(
@@ -40,6 +40,12 @@ function Dashboard() {
           </>
         }
       </section>
+
+      {user && (
+        <button className="add-btn" onClick={dispatch(createProblem)}>
+          Add Problem
+        </button>
+      )}
     </>
   );
 }

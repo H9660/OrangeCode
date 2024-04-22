@@ -118,6 +118,16 @@ h3 {
   word-wrap: break-word;
 }
 
+.add-btn{
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 50px;
+  padding: 0 20px;
+  color: #ff5722;
+  background: black;
+  margin-top: 30px;
+}
+
 .goal .close {
   position: relative;
   top: 10px;
@@ -128,9 +138,12 @@ h3 {
 }
 
 .form {
-  width: 100%; /* Set the container width */
-  display: flex;
-  justify-content: center;
+  width: 30%;
+  margin: 20px auto;
+  background-color: #ff5722;
+  border-radius: 30px;
+  padding: 30px;
+  background-color: #ff5722;
 }
 .content {
   width: 100%; /* Set the container width */

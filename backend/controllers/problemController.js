@@ -42,7 +42,7 @@ const setProblem = asyncHandler(async (req, res) => {
 const updateProblem = asyncHandler(async (req, res) => {
   try {
     const updatedProblem = await Problem.findOneAndUpdate(
-      { title: req.params.title },
+      { title: req.query.title },
       req.body,
       { new: true }
     );

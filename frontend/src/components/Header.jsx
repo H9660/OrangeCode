@@ -2,7 +2,7 @@ import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../slices/auth/authSlice";
-
+import { getProblems } from "../slices/problem/problemSlice";
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -13,6 +13,9 @@ function Header() {
     dispatch(reset());
     navigate("/");
   };
+  const handleClick = () => {
+    window.location.reload();
+  };
 
   return (
     <header className="header">
@@ -21,7 +24,12 @@ function Header() {
       </div>
       <ul>
         <li>
-          <Link to="/problems">
+          <Link
+            to="/problems"
+            onClick={() => {
+              dispatch(getProblems());
+            }}
+          >
             <FaSignInAlt /> Problems
           </Link>
         </li>
@@ -36,11 +44,6 @@ function Header() {
           </li>
         ) : (
           <>
-            {/* <li>
-              <Link to="/login">
-                <FaSignInAlt /> Problems
-              </Link>
-            </li> */}
             <li>
               <Link to="/login">
                 <FaSignInAlt /> Login
