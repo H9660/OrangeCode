@@ -11,11 +11,13 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+// This is used to parse the form data
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/goals', require('./routes/goalRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/problems', require('./routes/problemRoutes'));
+app.use('/api/stats', require('./routes/userStatsRoutes'))
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/build')));

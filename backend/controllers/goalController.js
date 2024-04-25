@@ -22,7 +22,7 @@ const setGoal = asyncHandler(async (req, res) => {
   }
 
   const goal = await Goal.create({
-    text: req.body.text,
+    text: req.body.twext,
     user: req.user.id,
   })
 

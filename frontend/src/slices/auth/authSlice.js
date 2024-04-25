@@ -14,8 +14,9 @@ const initialState = {
 };
 
 // Register user
+// This is an action creator 
 export const register = createAsyncThunk(
-  // name of the action could be anything
+  // This is an action type. This will trigger the slice with the name auth.
   "auth/register", 
   // logic of the action creator
   async (user, thunkAPI) => {
@@ -54,11 +55,12 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
 
+// So slice is a portion of the whole state
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // This reset is an action that the reducer is performing on the state
+    // This reset is an action creator that the reducer is performing on the state
     reset: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
@@ -68,6 +70,7 @@ export const authSlice = createSlice({
   }, 
   extraReducers: (builder) => {
     // This is to handle the async nature of the asyncThunk function. 
+    // The objects pending, fulfilled and rejected are indeed action objects
     builder
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -89,6 +92,7 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        // This action.payload is that data that is returned by authservice.login
         state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
