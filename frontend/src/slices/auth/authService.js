@@ -1,43 +1,49 @@
-import axios from 'axios'
+import axios from "axios";
 
-const API_URL = '/api/users/'
-// {
-//   "_id": "6617f23449be7f2b5677ba75",
-//   "name": "Hussain",
-//   "email": "lohahussain0@gmail.com",
-//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTdmMjM0NDliZTdmMmI1Njc3YmE3NSIsImlhdCI6MTcxMzA5NTYzNSwiZXhwIjoxNzE1Njg3NjM1fQ.iJ_-Oly0ftddKc7xk3PnbqVTD6c0yPid7Q5G_P4VcrE"
-// }
+const API_URL = "/api/users/";
+const STAT_URL = "/api/stats/";
+
 // Register user
 const register = async (userData) => {
-  const response = await axios.post(API_URL, userData)
-  console.log("Registered")
+  // Here at the time of registration we need to create a stat object as well for the user
+  const response = await axios.post(API_URL, userData);
+  console.log(response);
+  console.log("Registered");
   if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
+    localStorage.setItem("user", JSON.stringify(response.data));
   }
+  const statData = {
+    userId: response.data._id,
+    solved: 0,
+    attempted: 0,
+    fastestSolve: 0,
+    slowestSolve: 0,
+  };
+  const stats = await axios.post(STAT_URL, statData);
+  console.log(stats);
+  return response.data;
+};
 
-  return response.data
-}
- 
 // Login user
 const login = async (userData) => {
-  const response = await axios.post(API_URL + 'login', userData)
+  const response = await axios.post(API_URL + "login", userData);
 
   if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
+    localStorage.setItem("user", JSON.stringify(response.data));
   }
 
-  return response.data
-}
+  return response.data;
+};
 
 // Logout user
 const logout = () => {
-  localStorage.removeItem('user')
-}
+  localStorage.removeItem("user");
+};
 
 const authService = {
   register,
   logout,
   login,
-}
+};
 
-export default authService
+export default authService;

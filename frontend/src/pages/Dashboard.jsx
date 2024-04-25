@@ -18,7 +18,6 @@ function Dashboard() {
     }
 
     dispatch(getProblems());
-    console.log(problems);
   }, [isError, message, dispatch]);
 
   if (isLoading) {
@@ -41,7 +40,7 @@ function Dashboard() {
         }
       </section>
 
-      {user && (
+      {user && user.isAdmin == true && (
         <button className="add-btn" onClick={dispatch(createProblem)}>
           Add Problem
         </button>

@@ -1,134 +1,154 @@
-import { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { FaUser } from 'react-icons/fa'
-import { register, reset } from '../slices/auth/authSlice'
-import Spinner from '../components/Spinner'
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { FaUser } from "react-icons/fa";
+import { register, reset } from "../slices/auth/authSlice";
+import Spinner from "../components/Spinner";
 
 function Register() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: '',
-  })
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
+    isAdmin: false,
+  });
 
-  const { name, email, password, password2 } = formData
-
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const { name, email, password, password2, isAdmin } = formData;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth  // this is a reducer
-  )
+    (state) => state.auth // this is a reducer
+  );
 
   useEffect(() => {
     if (isError) {
-      toast.error(message)
+      toast.error(message);
     }
 
     if (isSuccess || user) {
-      navigate('/')
+      // To navigate to the admin profile we can use this line after changing it a bit
+      navigate("/");
     }
 
-    dispatch(reset())
-  }, [user, isError, isSuccess, message, navigate, dispatch])
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
+    console.log(e.target.checked);
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
+
+  const toggleIsAdmin = (e) => {
+    setFormData({
+      ...formData, // Keep all other fields unchanged
+      isAdmin: e.target.checked, // Toggle the value of isAdmin
+    });
+  };
 
   const onSubmit = (e) => {
-    console.log(e.target) // This is the triggerrer of the event
+    console.log(e.target); // This is the triggerrer of the event
     // This is done to prevent automatically page reloading
-    e.preventDefault()
+    e.preventDefault();
     // The use case of this is that if the user inputs some wrong data like unmatched passwords then this will prevent the page from reloading thereby saving other entered data
-
+    console.log(isAdmin);
     if (password !== password2) {
-      toast.error('Passwords do not match')
+      toast.error("Passwords do not match");
     } else {
       const userData = {
         name,
         email,
         password,
-      }
+        isAdmin,
+      };
 
-      dispatch(register(userData))
+      dispatch(register(userData)); // This is sending the dispatch actions to the redux store
     }
-  }
+  };
 
   if (isLoading) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   return (
     <>
-      <section className='heading'>
+      <section className="heading">
         <h1>
           <FaUser /> Register
         </h1>
         <p>Please create an account</p>
       </section>
 
-      <section className='form'>
+      <section className="form">
         <form onSubmit={onSubmit}>
-          <div className='form-group'>
+          <div className="form-group">
             <input
-              type='text'
-              className='form-control'
-              id='name'
-              name='name'
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
               value={name}
-              placeholder='Enter your name'
+              placeholder="Enter your name"
               onChange={onChange}
             />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <input
-              type='email'
-              className='form-control'
-              id='email'
-              name='email'
+              type="email"
+              className="form-control"
+              id="email"
+              name="email"
+              checked={formData.isAdmin}
               value={email}
-              placeholder='Enter your email'
+              placeholder="Enter your email"
               onChange={onChange}
             />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <input
-              type='password'
-              className='form-control'
-              id='password'
-              name='password'
+              type="password"
+              className="form-control"
+              id="password"
+              name="password"
               value={password}
-              placeholder='Enter password'
+              placeholder="Enter password"
               onChange={onChange}
             />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <input
-              type='password'
-              className='form-control'
-              id='password2'
-              name='password2'
+              type="password"
+              className="form-control"
+              id="password2"
+              name="password2"
               value={password2}
-              placeholder='Confirm password'
+              placeholder="Confirm password"
               onChange={onChange}
             />
           </div>
-          <div className='form-group'>
-            <button id="register" type='submit' className='btn btn-block'>
-              Sign Up
+          <div className="form-group">
+            <input
+              type="checkbox"
+              id="adminCheckbox"
+              name="isAdmin"
+              onChange={toggleIsAdmin}
+            ></input>
+            <label id="AdminText" for="adminCheckbox">
+              Admin?
+            </label>
+            <button id="register" type="submit" className="btn btn-block">
+              Register
             </button>
           </div>
         </form>
       </section>
     </>
-  )
+  );
 }
 
-export default Register
+export default Register;

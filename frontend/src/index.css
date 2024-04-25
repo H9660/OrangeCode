@@ -118,7 +118,7 @@ h3 {
   word-wrap: break-word;
 }
 
-.add-btn{
+.add-btn {
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 50px;
@@ -157,7 +157,7 @@ h3 {
   height: auto;
   width: auto;
   position: relative;
-  background-color: #FF5722; /* Set the background color */
+  background-color: #ff5722; /* Set the background color */
   border-radius: 20px; /* Create curved corners */
   margin: 20px; /* Add gap between bars */
 }
@@ -178,6 +178,15 @@ h3 {
 
 .form-group {
   margin-bottom: 10px;
+  display: flex;
+}
+
+#adminCheckbox {
+  width: 16px; /* Adjust as needed */
+  height: 16px; /* Adjust as needed */
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 3px;
 }
 
 .form-group input,
@@ -195,11 +204,28 @@ h3 {
   width: 50%;
   align-items: center;
 }
-#login,
-#register {
+
+.form-group label{
+  margin-bottom: 10px;
+  color: #000;
+
+}
+
+#login {
   text-align: center;
   display: block;
   margin: 0 auto;
+  border-radius: 30px;
+}
+
+#register {
+  text-align: center;
+  display: block;
+  margin: auto;
+  margin-left: 40px;
+  width: 100px;
+  margin-left: 120px;
+  align-items: flex-end;
   border-radius: 30px;
 }
 
