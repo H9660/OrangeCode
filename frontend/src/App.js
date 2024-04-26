@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
+import PasswordReset from './pages/PasswordReset'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/problems' element={<Dashboard/>} />
             <Route path='/:user' element={<Profile/>} />
+            <Route path='/resetpassword' element={<PasswordReset/>} />
           </Routes>
         </div>
       </Router>

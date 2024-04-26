@@ -20,7 +20,6 @@ function Profile() {
     console.log(stats);
   }, [isError, message, dispatch]); // The useEffect will execute the function again whenever any of the values isError, message, or dispatch gets changed
 
-  console.log(stats.solved);
   if (isLoading) {
     return <Spinner />;
   }
@@ -31,7 +30,7 @@ function Profile() {
         <h1>{user.name}</h1>
       </section>
 
-      {Object.keys(stats).length > 0 && (
+      {(
         <section className="content">
           <>
             <div className="bar">

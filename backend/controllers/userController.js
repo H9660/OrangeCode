@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password: hashedPassword,
-    isAdmin
+    isAdmin,
   });
 
   if (user) {
@@ -71,15 +71,43 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+const resetPassword = asyncHandler(async (req, res) => {
+  console.log("got it");
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(400);
+    throw new Error("User not found");
+  }
+
+  // // Hash password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const updatedUser = await User.findOneAndUpdate(
+    {email: email},
+    { password: hashedPassword },
+    { new: true }
+  );
+  // // Create user
+  console.log(updatedUser);
+  if (updatedUser) {
+    res.status(201).json({
+      _id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+});
 // @desc    Get user data
 // @route   GET /api/users/me
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
-});
-
-const resetPassword =  asyncHandler(async (req, res) => {
-   
 });
 // Generate JWT
 const generateToken = (id) => {
@@ -92,5 +120,5 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
-  resetPassword
+  resetPassword,
 };

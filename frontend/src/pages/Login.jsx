@@ -40,6 +40,10 @@ function Login() {
     }));
   };
 
+  const resetPassword = (e) => {
+    navigate(`/resetpassword`);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -92,6 +96,13 @@ function Login() {
           <div className="form-group">
             <button type="submit" id="login" className="btn btn-block">
               Log in
+            </button>
+            <button
+              id="login"
+              className="btn btn-block"
+              onClick={resetPassword}
+            >
+              Forgot Password?
             </button>
           </div>
         </form>
