@@ -72,7 +72,6 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const resetPassword = asyncHandler(async (req, res) => {
-  console.log("got it");
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 

@@ -82,6 +82,7 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
+      state.isResetSuccessful= false;
       state.message = "";
     },
   }, 
@@ -125,14 +126,15 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.isResetSuccessful = true;
+        state.isError = false;
         // We are marking isSuccess false here so that we may not login directly after reseting the password
         // This action.payload is that data that is returned by authservice.login
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
         state.isResetSuccessful = false;
         state.message = action.payload;
+        state.isError = true;
         state.user = null;
       })
       .addCase(logout.fulfilled, (state) => {
