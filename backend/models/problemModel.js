@@ -17,9 +17,8 @@ const problemSchema = mongoose.Schema(
     testcases: {
       type: Array,
       of: {
-        description: { type: String },
-        inputs: { type: Array },
-        expectedOutput: { type: Object },
+        input: { type: Array },
+        output: { type: Object },
       },
       default: [],
     },
