@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { FaSignInAlt } from "react-icons/fa";
+import { FaSyncAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { login, reset } from "../slices/auth/authSlice";
+import { resetPassword, reset } from "../slices/auth/authSlice";
 import Spinner from "../components/Spinner";
 
 function Login() {
@@ -17,21 +17,14 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
-
+  const { isError, isLoading, message } = useSelector((state) => state.auth);
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
 
-    if (isSuccess || user) {
-      navigate("/");
-    }
-
     dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [isError, message, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -40,19 +33,16 @@ function Login() {
     }));
   };
 
-  const resetPassword = (e) => {
-    navigate(`/resetpassword`);
-  };
-
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const userData = {
-      email,
-      password,
+    const resetData = {
+      email: email,
+      password: password,
     };
-
-    dispatch(login(userData));
+    localStorage.removeItem("user");
+    dispatch(resetPassword(resetData));
+    navigate("/login");
   };
 
   if (isLoading) {
@@ -63,9 +53,9 @@ function Login() {
     <>
       <section className="heading">
         <h1>
-          <FaSignInAlt /> Login
+          <FaSyncAlt /> Password Reset
         </h1>
-        <p>Login and start solving problems</p>
+        <p></p>
       </section>
 
       <section className="form">
@@ -88,21 +78,14 @@ function Login() {
               id="password"
               name="password"
               value={password}
-              placeholder="Enter password"
+              placeholder="Enter new password"
               onChange={onChange}
             />
           </div>
 
           <div className="form-group">
             <button type="submit" id="login" className="btn btn-block">
-              Log in
-            </button>
-            <button
-              id="login"
-              className="btn btn-block"
-              onClick={resetPassword}
-            >
-              Forgot Password?
+              Reset Password
             </button>
           </div>
         </form>

@@ -10,6 +10,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isResetSuccessful: false,
   message: "",
 };
 
@@ -42,6 +43,22 @@ export const login = createAsyncThunk(
   async (user, thunkAPI) => {
   try {
     return await authService.login(user);
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const resetPassword= createAsyncThunk(
+  // name of an action
+  "auth/resetPassword",
+  // logic of the action creator 
+  async (resetData, thunkAPI) => {
+  try {
+    return await authService.resetPassword(resetData);
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -98,6 +115,23 @@ export const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isResetSuccessful = true;
+        // We are marking isSuccess false here so that we may not login directly after reseting the password
+        // This action.payload is that data that is returned by authservice.login
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isResetSuccessful = false;
         state.message = action.payload;
         state.user = null;
       })
