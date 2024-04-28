@@ -22,7 +22,6 @@ function App() {
             <Route path='/problems' element={<Dashboard/>} />
             <Route path='/:user' element={<Profile/>} />
             <Route path='/resetpassword' element={<PasswordReset/>} />
-            <Route path='/addProblem' element={<ProblemForm/>} />
           </Routes>
         </div>
       </Router>
