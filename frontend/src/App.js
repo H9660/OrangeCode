@@ -7,7 +7,6 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
 import PasswordReset from './pages/PasswordReset'
-import ProblemForm from './pages/ProblemForm'
 
 function App() {
   return (
