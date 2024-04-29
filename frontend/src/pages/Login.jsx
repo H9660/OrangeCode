@@ -3,7 +3,7 @@ import { FaSignInAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { login, reset } from "../slices/auth/authSlice";
+import { login, googleLogin, reset } from "../slices/auth/authSlice";
 import Spinner from "../components/Spinner";
 
 function Login() {
@@ -43,6 +43,10 @@ function Login() {
   const resetPassword = (e) => {
     navigate(`/resetpassword`);
   };
+  
+  const googlelogin = (e) =>{
+    dispatch(googleLogin());
+  }
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -54,7 +58,7 @@ function Login() {
 
     dispatch(login(userData));
   };
-
+  
   if (isLoading) {
     return <Spinner />;
   }
@@ -96,6 +100,9 @@ function Login() {
           <div className="form-group">
             <button type="submit" id="login" className="btn btn-block">
               Log in
+            </button>
+            <button id="login" className="btn btn-block" onClick={googlelogin}>
+              Login with google
             </button>
             <button
               id="login"

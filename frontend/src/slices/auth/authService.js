@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "/api/users/";
 const STAT_URL = "/api/stats/";
-
+const GOOGLE_AUTH = "/auth";
 // Register user
 const register = async (userData) => {
   // Here at the time of registration we need to create a stat object as well for the user
@@ -35,9 +35,25 @@ const login = async (userData) => {
   return response.data;
 };
 
+const googleLogin = async () => {
+  try {
+    const response = await axios.get(GOOGLE_AUTH)
+    
+    if (response.data) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error("Error occurred:", error);
+    // Handle the error gracefully
+    return null;
+  }
+};
+
 const resetPassword = async (resetData) => {
   const response = await axios.post(API_URL + "resetpassword", resetData);
-  console.log(response.data)
+  console.log(response.data);
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
@@ -55,6 +71,7 @@ const authService = {
   logout,
   login,
   resetPassword,
+  googleLogin,
 };
 
 export default authService;
