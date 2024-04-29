@@ -200,6 +200,9 @@ h3 {
   font-family: Open Sans;
 }
 
+#testCases{
+  display: block;
+}
 .form-group button {
   width: 50%;
   align-items: center;

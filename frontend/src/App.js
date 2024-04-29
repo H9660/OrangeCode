@@ -8,6 +8,7 @@ import Register from './pages/Register'
 import Profile from './pages/Profile'
 import PasswordReset from './pages/PasswordReset'
 import ProblemForm from './pages/ProblemForm'
+import ProblemContext from './pages/ProblemContext'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path='/:user' element={<Profile/>} />
             <Route path='/resetpassword' element={<PasswordReset/>} />
             <Route path='/addProblem' element={<ProblemForm/>} />
+            <Route path='/problems/:title' element={<ProblemContext/>} />
           </Routes>
         </div>
       </Router>
