@@ -17,21 +17,23 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const { user, isLoading, isError, isSuccess, isResetSuccessful, message } =
+    useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
 
+    if (isResetSuccessful) {
+      toast.success("Password reset successful. Please log in.");
+    }
     if (isSuccess || user) {
       navigate("/");
     }
 
     dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [isResetSuccessful, user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({

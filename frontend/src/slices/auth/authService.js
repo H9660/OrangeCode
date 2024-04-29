@@ -53,7 +53,7 @@ const googleLogin = async () => {
 
 const resetPassword = async (resetData) => {
   const response = await axios.post(API_URL + "resetpassword", resetData);
-  console.log(response.data);
+  console.log(response.data)
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
@@ -72,6 +72,7 @@ const authService = {
   login,
   resetPassword,
   googleLogin,
+  resetPassword,
 };
 
 export default authService;

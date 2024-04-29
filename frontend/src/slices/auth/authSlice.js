@@ -84,6 +84,7 @@ export const resetPassword= createAsyncThunk(
   }
 });
 
+
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
@@ -98,6 +99,7 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
+      state.isResetSuccessful= false;
       state.message = "";
     },
   }, 
