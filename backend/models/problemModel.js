@@ -22,6 +22,10 @@ const problemSchema = mongoose.Schema(
       },
       default: [],
     },
+
+    constraints: {
+      type: String,
+    }
   },
   {
     timestamps: true,

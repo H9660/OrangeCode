@@ -5,7 +5,7 @@ const Problem = require("../models/problemModel");
 // @route   GET /api/problems
 // @access  Private
 const getProblem = asyncHandler(async (req, res) => {
-  const problem = await Problem.find({ title: req.params.title });
+  const problem = await Problem.findOne({ title: req.params.title });
   if (!problem) {
     res.status(400);
     throw new Error("Problem not found");
@@ -31,6 +31,7 @@ const setProblem = asyncHandler(async (req, res) => {
     title: req.body.title,
     statement: req.body.statement,
     testcases: req.body.testcases,
+    constraints: req.body.constraints
   });
 
   res.status(200).json(problem);
@@ -89,11 +90,16 @@ const deleteAllProblems = asyncHandler(async (req, res) => {
   }
 });
 
+const submitCode = asyncHandler(async (req, res) =>{
+  const {title, code, language}=req.body
+
+})
 module.exports = {
   getProblem,
   getProblems,
   setProblem,
   updateProblem,
   deleteProblem,
-  deleteAllProblems
+  deleteAllProblems,
+  submitCode
 };

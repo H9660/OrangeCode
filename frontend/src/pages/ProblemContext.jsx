@@ -1,32 +1,32 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
+import { getProblem, submitCode } from "../slices/problem/problemSlice";
+import { FaExclamationCircle } from "react-icons/fa";
 
 function ProblemContext({ title: title }) {
   const [codedata, setcodeData] = useState({
     code: "",
-    langauge: "",
+    language: "",
   });
 
   const { code, language } = codedata;
   const solveSuccess = false;
   const compilerError = false;
   const failure = false;
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
+  const { problem, isSuccess, isLoading, isError, message } = useSelector(
+    (state) => state.problems
   );
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+    dispatch(getProblem(title));
+  }, [isSuccess, dispatch, isError]);
 
   const onChange = (e) => {
     setcodeData((prevState) => ({
@@ -35,89 +35,139 @@ function ProblemContext({ title: title }) {
     }));
   };
 
+  const submitcode = (e) => {
+    console.log("done")
+    const submitData = {
+      code: code,
+      language: language,
+      title: title,
+    };
+    dispatch(submitCode(submitData));
+  };
+
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <>
-      <div id="main">
-        <div id="problem">
-          <ul id="problem-heading">
-            <li>{title}</li>
-            <ul>
-              <li>Hard</li>
-              <li>✔Solved</li>
+      {problem ? (
+        <div id="main">
+          <div id="problem">
+            <ul id="problem-heading">
+              <li>{problem.title}</li>
+              <ul>
+                <li>Hard</li>
+                <li>✔Solved</li>
+              </ul>
             </ul>
-          </ul>
-          {solveSuccess ? (
-            <>
-              <div id="success-solve">Success</div>
-              <ul id="navigate-buttons">
-                <li>◀◀ Previous</li>
-                <li>Next ▶▶</li>
-              </ul>
-            </>
-          ) : compilerError ? (
-            <>
-              <div id="compiler-error">Compiler Error</div>
-              <ul id="navigate-buttons">
-                <li>◀◀ Previous</li>
-                <li>Next ▶▶</li>
-              </ul>
-            </>
-          ) : failure ? (
-            <>
-              <div id="failure-solve">Failure</div>
-              <ul id="navigate-buttons">
-                <li>◀◀ Previous</li>
-                <li>Next ▶▶</li>
-              </ul>
-            </>
-          ) : (
-            <>
-              <div id="problem-statement">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad
-                rerum error incidunt. Similique consequuntur consequatur quaerat
-                quasi eius deserunt pariatur ea amet tempora quae minima
-                laudantium, rerum odit animi beatae quos voluptatum unde
-                voluptates nulla cum earum est omnis corrupti voluptatibus.
-                Doloremque a dolorem voluptatem quis ratione modi fuga. Animi.
-              </div>
-              <ul id="problem-specs">
-                <li>Testcase 1</li>
-                <li>Testcase 2</li>
-                <li>Constraints</li>
-              </ul>
-            </>
-          )}
-        </div>
+            {solveSuccess ? (
+              <>
+                <div id="success-solve">Success</div>
+                <ul id="navigate-buttons">
+                  <li>◀◀ Previous</li>
+                  <li>Next ▶▶</li>
+                </ul>
+              </>
+            ) : compilerError ? (
+              <>
+                <div id="compiler-error">Compiler Error</div>
+                <ul id="navigate-buttons">
+                  <li>◀◀ Previous</li>
+                  <li>Next ▶▶</li>
+                </ul>
+              </>
+            ) : failure ? (
+              <>
+                <div id="failure-solve">Failure</div>
+                <ul id="navigate-buttons">
+                  <li>◀◀ Previous</li>
+                  <li>Next ▶▶</li>
+                </ul>
+              </>
+            ) : (
+              <>
+                <div id="problem-statement">{problem.statement}</div>
+                <ul id="problem-specs">
+                  {problem.testcases.length > 0 ? (
+                    <li>
+                      Input: {problem.testcases[0].input}
+                      <br></br>
+                      Output: {problem.testcases[0].input}
+                    </li>
+                  ) : (
+                    <div></div>
+                  )}
 
-        <div id="editor">
-          <ul id="editor-heading">
-            <li>
-              <select id="langauge-select">
-                <option value="cpp">C++</option>
-                <option value="java">Java</option>
-                <option value="python">Python</option>
-                <option value="javascript">Javascript</option>
-              </select>
-            </li>
-            <ul>
-              <li>Run</li>
-              <li>Submit</li>
+                  {problem.testcases.length > 1 ? (
+                    <li>
+                      Input: {problem.testcases[1].input}
+                      <br></br>
+                      Output: {problem.testcases[1].input}
+                    </li>
+                  ) : (
+                    <div></div>
+                  )}
+
+                  <li>{problem.constraints}</li>
+                </ul>
+              </>
+            )}
+          </div>
+
+          <div id="editor">
+            <ul id="editor-heading">
+              <li>
+                <select
+                  name="language"
+                  value={language}
+                  id="langauge-select"
+                  onChange={onChange}
+                >
+                  <option value="cpp">C++</option>
+                  <option value="java">Java</option>
+                  <option value="python">Python</option>
+                  <option value="javascript">Javascript</option>
+                </select>
+              </li>
+              <ul>
+                <li>Run</li>
+                <li onClick={submitcode}>Submit</li>
+              </ul>
             </ul>
-          </ul>
 
-          <textarea
-            id="codepad"
-            placeholder="Enter your code here"
-            onchange={onChange}
-          ></textarea>
+            <textarea
+              type="textarea"
+              id="codepad"
+              placeholder="Enter your code here"
+              onChange={onChange}
+              name="code"
+              value={code}
+            ></textarea>
 
-          <div id="code-reset">Reset</div>
+            <div
+              id="code-reset"
+              onClick={() => {
+                setcodeData({
+                  code: "",
+                });
+              }}
+            >
+              Reset
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <div id="not-found">
+            <FaExclamationCircle
+              id="exclaim"
+              size="120px"
+            ></FaExclamationCircle>
+          </div>
+          <div id="not-found">Problem not found</div>
+        </>
+      )}
     </>
   );
 }

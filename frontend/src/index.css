@@ -345,6 +345,9 @@ h3 {
   margin-left: 20px;
   margin-right: 20px;
 }
+#editor-heading > ul > li {
+  cursor: pointer;
+}
 
 #problem-statement,
 #success-solve,
@@ -393,7 +396,7 @@ h3 {
   margin: 40px auto; /* Removes default margin and centers the ul horizontally */
 }
 
-#problem-specs > li{
+#problem-specs > li {
   overflow: auto;
   padding: 10px;
   text-align: left;
@@ -450,6 +453,17 @@ h3 {
   cursor: pointer; /* Change the cursor to a pointer on hover */
 }
 
+#not-found {
+  color: #ff5722;
+  font-size: 3rem;
+  align-items: center;
+  justify-content: center;
+  font-weight: 1000;
+}
+
+#exclaim {
+  margin-top: 13px;
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);

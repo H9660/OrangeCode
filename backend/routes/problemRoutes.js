@@ -6,10 +6,11 @@ const {
   setProblem,
   deleteProblem,
   deleteAllProblems,
-  updateProblem
+  updateProblem,
+  submitCode
 } = require('../controllers/problemController')
 
 router.route('/').get(getProblems).post(setProblem).delete(deleteAllProblems)
 router.route('/:title').get(getProblem).delete(deleteProblem).put(updateProblem)
-
+router.route('/submit').post(submitCode)
 module.exports = router

@@ -1,7 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import problemService from "./problemService";
 
+const defaultProblem = {
+  title: "",
+  statement: "",
+  testcases: [],
+  constraints: ""
+}
 const initialState = {
+  problem: {...defaultProblem},
   problems: [],
   isError: false,
   isSuccess: false,
@@ -28,6 +35,23 @@ export const createProblem = createAsyncThunk(
   }
 );
 
+export const getProblem = createAsyncThunk(
+  "problem/get",
+  async (title, thunkAPI) => {
+    try {
+      // const token = thunkAPI.getState().auth.user.token
+      return await problemService.getProblem(title);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 // Get all problems
 export const getProblems = createAsyncThunk(
   "problem/getAll",
@@ -85,6 +109,24 @@ export const deleteProblem = createAsyncThunk(
   }
 );
 
+export const submitCode = createAsyncThunk(
+  "problem/submit",
+  async (submitData, thunkAPI) => {
+    try {
+      // const token = thunkAPI.getState().auth.user.token
+      return await problemService.submitCode(submitData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const problemSlice = createSlice({
   name: "Problem",
   initialState,
@@ -115,6 +157,19 @@ export const problemSlice = createSlice({
         state.problems = action.payload;
       })
       .addCase(getProblems.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getProblem.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProblem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.problem = action.payload;
+      })
+      .addCase(getProblem.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

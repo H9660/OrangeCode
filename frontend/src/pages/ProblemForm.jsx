@@ -12,6 +12,7 @@ function ProblemForm() {
     title: "",
     statement: "",
     testcases: [],
+    constraints: ""
   });
 
   const [testData, setTestData] = useState({
@@ -19,7 +20,7 @@ function ProblemForm() {
     output: "",
   });
 
-  const { title, statement, testcases } = formData;
+  const { title, statement, testcases, constraints } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -159,6 +160,7 @@ function ProblemForm() {
       title,
       statement,
       testcases,
+      constraints
     };
 
     dispatch(createProblem(testdata));
@@ -199,6 +201,17 @@ function ProblemForm() {
               name="statement"
               value={statement}
               placeholder="Enter problem statement"
+              onChange={onChange}
+            />
+          </div>
+           <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              id="constraints"
+              name="constraints"
+              value={constraints}
+              placeholder="Enter the constraints"
               onChange={onChange}
             />
           </div>
