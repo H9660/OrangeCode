@@ -12,7 +12,7 @@ function ProblemForm() {
     title: "",
     statement: "",
     testcases: [],
-    constraints: ""
+    constraints: "",
   });
 
   const [testData, setTestData] = useState({
@@ -150,17 +150,73 @@ function ProblemForm() {
     }
   }
 
+  const formatTestCases = (testcases) => {
+    const formattedTestCases = testcases.map((testcase) => {
+      // formats inputs
+      if (
+        typeof testcase.input === "string" ||
+        testcase.input instanceof String
+      ) {
+        // formats inputs
+        if (testcase.input.includes(" ")) {
+          try {
+            // Attempt to parse as a list of integers
+            testcase.input = testcase.input
+              .split(" ")
+              .map((x) => parseInt(x.trim()));
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      } else if (Array.isArray(testcase.input)) {
+        // Input is already an array, no need to parse
+      } else {
+        // Input is neither a string nor an array, parse as integer
+        testcase.input = parseInt(testcase.input);
+      }
+
+      // Check if output is a string
+      if (
+        typeof testcase.output === "string" ||
+        testcase.output instanceof String
+      ) {
+        // formats outputs
+        if (testcase.output.includes(" ")) {
+          try {
+            // Attempt to parse as a list of integers
+            testcase.output = testcase.output
+              .split(" ")
+              .map((x) => parseInt(x.trim()));
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      } else if (Array.isArray(testcase.output)) {
+        // Output is already an array, no need to parse
+      } else {
+        // Output is neither a string nor an array, parse as integer
+        testcase.output = parseInt(testcase.output);
+      }
+
+      return testcase; // Return the modified testcase
+    });
+
+    return formattedTestCases;
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     // For the first test case and the last one
     if (testData.input.length > 0 && testData.output.length > 0)
       testcases.push(testData);
+
+    formatTestCases(testcases);
     console.log(testcases);
     const testdata = {
       title,
       statement,
       testcases,
-      constraints
+      constraints,
     };
 
     dispatch(createProblem(testdata));
@@ -204,7 +260,7 @@ function ProblemForm() {
               onChange={onChange}
             />
           </div>
-           <div className="form-group">
+          <div className="form-group">
             <input
               type="text"
               className="form-control"
@@ -245,20 +301,3 @@ function ProblemForm() {
 }
 
 export default ProblemForm;
-
-// [
-//   {
-//     "input": [1,2,3,4,,5];
-//     "output": 5
-//   },
-
-//   {
-//     "input": [1,2,3,4,,5];
-//     "output": 5
-//   },
-
-//   {
-//     "input": [1,2,3,4,,5];
-//     "output": 5
-//   },
-// ]

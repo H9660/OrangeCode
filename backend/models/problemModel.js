@@ -17,7 +17,7 @@ const problemSchema = mongoose.Schema(
     testcases: {
       type: Array,
       of: {
-        input: { type: Array },
+        input: { type: Object },
         output: { type: Object },
       },
       default: [],
@@ -33,3 +33,6 @@ const problemSchema = mongoose.Schema(
 );
 
 module.exports = mongoose.model("Problem", problemSchema);
+
+
+// Okay now I want to give my testcases which are present in the testcases array with each element consists of two array inputs and "output"

@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const API_URL = "/api/problems/";
-
 // Create new problem
 const createProblem = async (problemData) => {
   const response = await axios.post(API_URL, problemData);
@@ -28,43 +27,41 @@ const getProblems = async () => {
 
 // Delete problem
 const deleteProblem = async (title) => {
-  // const config = {
-  // headers: {
-  // Authorization: `Bearer ${token}`,
-  //},
-  //}
-
   const response = await axios.delete(API_URL + title);
   return response.data;
 };
 
 const updateProblem = async (title) => {
-  // const config = {
-  // headers: {
-  // Authorization: `Bearer ${token}`,
-  //},
-  //}
-
   const response = await axios.put(API_URL + title);
   return response.data;
 };
 
-const submitCode = async (submitData) => {
+const runCode = async (runData) => {
   try {
-    const response = await axios.post(API_URL + '/submit', submitData);
-    return response.data;
-  } catch (error) {
-    console.log("Error occured: ", error);
+    const response = await axios.post(API_URL + "/run", runData);
+    if (response.data.error != undefined) return response.data.error;
+    else return response.data.output;
+  } catch (err) {
+    console.log(err);
   }
 };
 
+const submitCode = async (submitData) => {
+  try {
+    const response = await axios.post(API_URL + "/submit", submitData);
+    return response.data.output;
+  } catch (err) {
+    console.log(err);
+  }
+};
 const problemService = {
   createProblem,
   getProblem,
   getProblems,
   updateProblem,
   deleteProblem,
-  submitCode,
+  runCode,
+  submitCode
 };
 
 export default problemService;

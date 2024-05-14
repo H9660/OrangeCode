@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-
+const axios = require("axios");
 const Problem = require("../models/problemModel");
 // @desc    Get problems
 // @route   GET /api/problems
@@ -31,7 +31,7 @@ const setProblem = asyncHandler(async (req, res) => {
     title: req.body.title,
     statement: req.body.statement,
     testcases: req.body.testcases,
-    constraints: req.body.constraints
+    constraints: req.body.constraints,
   });
 
   res.status(200).json(problem);
@@ -90,10 +90,118 @@ const deleteAllProblems = asyncHandler(async (req, res) => {
   }
 });
 
-const submitCode = asyncHandler(async (req, res) =>{
-  const {title, code, language}=req.body
+const generateFileName = (language) => {
+  switch (language) {
+    case "cpp":
+      return "main.cpp"; // Judge0 language ID for C++
+    case "java":
+      return "main.java"; // Judge0 language ID for Java
+    case "python":
+      return "main.py"; // Judge0 language ID for Python
+    default:
+      return "main.type";
+  }
+};
 
-})
+const runCode = asyncHandler(async (req, res) => {
+  const { code, language, input } = req.body;
+  const fileName = generateFileName(language);
+  const headers = {
+    Authorization: `Token ${process.env.GLOT_TOKEN}`,
+    "Content-type": "application/json",
+  };
+
+  const data = {
+    files: [
+      {
+        name: fileName,
+        content: code,
+      },
+    ],
+    stdin: input,
+  };
+  // Create a new Axios instance with custom baseURL to handle proxying
+  const axiosInstance = axios.create({
+    baseURL: "https://glot.io",
+    headers: headers,
+    transformRequest: [(data) => JSON.stringify(data)], // Ensure request data is stringified
+  });
+
+  try {
+    // Send modified request to glot.io using the Axios instance
+    const response = await axiosInstance.post(
+      `/api/run/${language}/latest`,
+      data
+    );
+
+    // Handle the response from glot.io
+    if (response.data.stderr !== "") {
+      res.status(200).json({ output: response.data.stderr });
+    } else {
+      res.status(200).json({ output: response.data.stdout });
+    }
+  } catch (error) {
+    console.log("Error occurred: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+const submitCode = asyncHandler(async (req, res) => {
+  const { code, language, title } = req.body;
+  const problem = await Problem.findOne({ title: title });
+  console.log(problem.testcases.length);
+  const fileName = generateFileName(language);
+  const headers = {
+    Authorization: `Token ${process.env.GLOT_TOKEN}`,
+    "Content-type": "application/json",
+  };
+  const outputs = [];
+  const promises = problem.testcases.map(async (testcase) => {
+    const data = {
+      files: [
+        {
+          name: fileName,
+          content: code,
+        },
+      ],
+      stdin: testcase.input.join(" "),
+    };
+    // Create a new Axios instance with custom baseURL to handle proxying
+    const axiosInstance = axios.create({
+      baseURL: "https://glot.io",
+      headers: headers,
+      transformRequest: [(data) => JSON.stringify(data)], // Ensure request data is stringified
+    });
+
+    try {
+      // Send modified request to glot.io using the Axios instance
+      const response = await axiosInstance.post(
+        `/api/run/${language}/latest`,
+        data
+      );
+
+      console.log(testcase.output);
+      // Handle the response from glot.io
+      if (response.data.stderr !== "") {
+        outputs.splice(0, outputs.length);
+        outputs.push("Error");
+        outputs.push(response.data.stderr);
+      }
+      if (response.data.stdout == testcase.output) outputs.push("Accepted");
+    } catch (error) {
+      console.log("Error occurred: ", error);
+    }
+  });
+
+  await Promise.all(promises);
+  console.log(outputs);
+  if (outputs.length == 2 && outputs[0] == "Error")
+    res.status(200).json({ output: outputs[1] });
+  if (outputs.length == problem.testcases.length)
+    res.status(200).json({ output: "Accepted" });
+  else res.status(200).json({ output: "Wrong Answer" });
+});
+// now you need to implement the judge0 logic here
 module.exports = {
   getProblem,
   getProblems,
@@ -101,5 +209,6 @@ module.exports = {
   updateProblem,
   deleteProblem,
   deleteAllProblems,
-  submitCode
+  runCode,
+  submitCode,
 };

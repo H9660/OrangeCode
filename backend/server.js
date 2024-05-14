@@ -21,12 +21,13 @@ app.use(
     cookie: { secure: false },
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/auth", require("./middleware/googleMiddleware"));
 app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/problems", require("./routes/problemRoutes"));
 app.use("/api/stats", require("./routes/userStatsRoutes"));
+app.use("/api/problems", require("./routes/problemRoutes"));
 // Serve frontend
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));

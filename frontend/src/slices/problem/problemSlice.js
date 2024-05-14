@@ -5,15 +5,21 @@ const defaultProblem = {
   title: "",
   statement: "",
   testcases: [],
-  constraints: ""
-}
+  constraints: "",
+  outputs: []
+};
 const initialState = {
-  problem: {...defaultProblem},
+  problem: { ...defaultProblem },
   problems: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
+  outputs: [],
+  result: "",
+  code: "",
+  language: "",
+  input: ""
 };
 
 // Create new problem
@@ -109,12 +115,30 @@ export const deleteProblem = createAsyncThunk(
   }
 );
 
+export const runCode = createAsyncThunk(
+  "problem/run",
+  async (runData, thunkAPI) => {
+    try {
+      const response = await problemService.runCode(runData);
+      return response
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const submitCode = createAsyncThunk(
   "problem/submit",
   async (submitData, thunkAPI) => {
     try {
-      // const token = thunkAPI.getState().auth.user.token
-      return await problemService.submitCode(submitData);
+      const response = await problemService.submitCode(submitData);
+      return response
     } catch (error) {
       const message =
         (error.response &&
@@ -203,6 +227,31 @@ export const problemSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(runCode.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(runCode.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.result = action.payload;
+      })
+      .addCase(runCode.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+       .addCase(submitCode.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(submitCode.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.result = action.payload;
+      })
+      .addCase(submitCode.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
       });
   },
 });

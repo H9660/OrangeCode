@@ -296,6 +296,7 @@ h3 {
 
 #problem,
 #editor {
+  overflow: auto;
   background-color: #ff5722; /* Sets the background color */
   color: white; /* Sets the text color */
   width: 50%; /* Each box takes up half of the total width */
@@ -321,7 +322,7 @@ h3 {
   justify-content: space-between;
 }
 
-#langauge-select {
+#langauge-select,#theme-select {
   font-size: 1rem;
   font-weight: 700;
   margin: auto;
@@ -353,7 +354,7 @@ h3 {
 #success-solve,
 #failure-solve,
 #compiler-error,
-#codepad {
+#codepad,#output {
   overflow: auto;
   background-color: black;
   position: relative;
@@ -373,7 +374,19 @@ h3 {
 
 #codepad {
   resize: none;
-  height: 46vh;
+  height: 40vh;
+}
+
+#output,#input{
+  margin-top: 10px;
+  resize: none;
+  height: 12vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#input-output{
+  display: flex;
 }
 
 #compiler-error,
@@ -484,5 +497,25 @@ h3 {
 
   .heading p {
     font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 800px) {
+ #editor,#problem{
+  height: 1000px;
+ }
+}
+
+@media (min-width: 801px){
+  #editor, #problem{
+    height: 150%;
+  }
+
+  #problem-specs{
+    height: 50vh;
+  }
+
+  #output{
+    height: 30vh;
   }
 }

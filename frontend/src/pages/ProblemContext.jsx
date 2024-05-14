@@ -2,22 +2,18 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
+import CodeEditor from "./CodeEditor";
 import { getProblem, submitCode } from "../slices/problem/problemSlice";
 import { FaExclamationCircle } from "react-icons/fa";
 
 function ProblemContext({ title: title }) {
-  const [codedata, setcodeData] = useState({
-    code: "",
-    language: "",
-  });
-
-  const { code, language } = codedata;
   const solveSuccess = false;
   const compilerError = false;
   const failure = false;
+
   const dispatch = useDispatch();
 
-  const { problem, isSuccess, isLoading, isError, message } = useSelector(
+  const { problem, isLoading, isError, message } = useSelector(
     (state) => state.problems
   );
 
@@ -26,24 +22,7 @@ function ProblemContext({ title: title }) {
       toast.error(message);
     }
     dispatch(getProblem(title));
-  }, [isSuccess, dispatch, isError]);
-
-  const onChange = (e) => {
-    setcodeData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const submitcode = (e) => {
-    console.log("done")
-    const submitData = {
-      code: code,
-      language: language,
-      title: title,
-    };
-    dispatch(submitCode(submitData));
-  };
+  }, [dispatch, isError]);
 
   if (isLoading) {
     return <Spinner />;
@@ -91,9 +70,9 @@ function ProblemContext({ title: title }) {
                 <ul id="problem-specs">
                   {problem.testcases.length > 0 ? (
                     <li>
-                      Input: {problem.testcases[0].input}
+                    Input: {problem.testcases[0].input}
                       <br></br>
-                      Output: {problem.testcases[0].input}
+                      Output: {problem.testcases[0].output}
                     </li>
                   ) : (
                     <div></div>
@@ -103,7 +82,7 @@ function ProblemContext({ title: title }) {
                     <li>
                       Input: {problem.testcases[1].input}
                       <br></br>
-                      Output: {problem.testcases[1].input}
+                      Output: {problem.testcases[1].output}
                     </li>
                   ) : (
                     <div></div>
@@ -115,47 +94,7 @@ function ProblemContext({ title: title }) {
             )}
           </div>
 
-          <div id="editor">
-            <ul id="editor-heading">
-              <li>
-                <select
-                  name="language"
-                  value={language}
-                  id="langauge-select"
-                  onChange={onChange}
-                >
-                  <option value="cpp">C++</option>
-                  <option value="java">Java</option>
-                  <option value="python">Python</option>
-                  <option value="javascript">Javascript</option>
-                </select>
-              </li>
-              <ul>
-                <li>Run</li>
-                <li onClick={submitcode}>Submit</li>
-              </ul>
-            </ul>
-
-            <textarea
-              type="textarea"
-              id="codepad"
-              placeholder="Enter your code here"
-              onChange={onChange}
-              name="code"
-              value={code}
-            ></textarea>
-
-            <div
-              id="code-reset"
-              onClick={() => {
-                setcodeData({
-                  code: "",
-                });
-              }}
-            >
-              Reset
-            </div>
-          </div>
+          <CodeEditor title={title} />
         </div>
       ) : (
         <>
