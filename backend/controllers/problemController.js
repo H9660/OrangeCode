@@ -27,6 +27,7 @@ const setProblem = asyncHandler(async (req, res) => {
     throw new Error("Please add all the required fields");
   }
 
+  console.log(req.body.testcases);
   const problem = await Problem.create({
     title: req.body.title,
     statement: req.body.statement,
@@ -63,6 +64,7 @@ const updateProblem = asyncHandler(async (req, res) => {
 // // @route   DELETE /api/problems/:id
 // // @access  Private
 const deleteProblem = asyncHandler(async (req, res) => {
+  console.log(req.params.title);
   try {
     const deletedProblem = await Problem.findOneAndDelete({
       title: req.params.title,
@@ -149,7 +151,6 @@ const runCode = asyncHandler(async (req, res) => {
 const submitCode = asyncHandler(async (req, res) => {
   const { code, language, title } = req.body;
   const problem = await Problem.findOne({ title: title });
-  console.log(problem.testcases.length);
   const fileName = generateFileName(language);
   const headers = {
     Authorization: `Token ${process.env.GLOT_TOKEN}`,
@@ -157,6 +158,7 @@ const submitCode = asyncHandler(async (req, res) => {
   };
   const outputs = [];
   const promises = problem.testcases.map(async (testcase) => {
+    console.log(testcase);
     const data = {
       files: [
         {
@@ -164,8 +166,9 @@ const submitCode = asyncHandler(async (req, res) => {
           content: code,
         },
       ],
-      stdin: testcase.input.join(" "),
+      stdin: testcase.input,
     };
+
     // Create a new Axios instance with custom baseURL to handle proxying
     const axiosInstance = axios.create({
       baseURL: "https://glot.io",
@@ -180,14 +183,15 @@ const submitCode = asyncHandler(async (req, res) => {
         data
       );
 
-      console.log(testcase.output);
+      console.log(response.data);
       // Handle the response from glot.io
       if (response.data.stderr !== "") {
-        outputs.splice(0, outputs.length);
         outputs.push("Error");
         outputs.push(response.data.stderr);
       }
-      if (response.data.stdout == testcase.output) outputs.push("Accepted");
+      if (response.data.stdout.trimEnd() === testcase.output)
+      // The trimEnd is to remove any escape sequence from the output.
+        outputs.push("Accepted");
     } catch (error) {
       console.log("Error occurred: ", error);
     }
@@ -195,9 +199,9 @@ const submitCode = asyncHandler(async (req, res) => {
 
   await Promise.all(promises);
   console.log(outputs);
-  if (outputs.length == 2 && outputs[0] == "Error")
-    res.status(200).json({ output: outputs[1] });
-  if (outputs.length == problem.testcases.length)
+  if (outputs[outputs.length - 2] == "Error")
+    res.status(200).json({ output: outputs[outputs.length - 1] });
+  if (outputs.length === problem.testcases.length)
     res.status(200).json({ output: "Accepted" });
   else res.status(200).json({ output: "Wrong Answer" });
 });

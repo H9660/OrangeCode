@@ -82,7 +82,7 @@ function ProblemForm() {
     }
     resetTestData();
     // Get the reference to the testCases div
-
+    const { input, output } = testData;
     // Create a container div for the entire set of inputs
     const containerDiv = document.createElement("div");
 
@@ -90,18 +90,16 @@ function ProblemForm() {
     const formGroupDiv1 = document.createElement("div");
     formGroupDiv1.className = "form-group";
 
-    // Create the second input element (input)
-    const inputInput1 = document.createElement("input");
-    inputInput1.type = "text";
-    inputInput1.className = "form-control";
+    // Testcase input
+    const inputInput1 = document.createElement("textarea");
+    inputInput1.className = "testcase-input";
     inputInput1.name = "input";
     inputInput1.placeholder = "Enter input";
     inputInput1.addEventListener("change", onTestChange);
 
-    // Create the third input element (expected output)
-    const outputInput1 = document.createElement("input");
-    outputInput1.type = "text";
-    outputInput1.className = "form-control";
+    // Testcase output
+    const outputInput1 = document.createElement("textarea");
+    outputInput1.className = "testcase-output";
     outputInput1.name = "output";
     outputInput1.placeholder = "Enter expected output";
     outputInput1.addEventListener("change", onTestChange);
@@ -132,6 +130,7 @@ function ProblemForm() {
         testCasesDiv.children.length
     );
 
+    console.log(testData.input);
     resetTestData();
   };
 
@@ -150,67 +149,16 @@ function ProblemForm() {
     }
   }
 
-  const formatTestCases = (testcases) => {
-    const formattedTestCases = testcases.map((testcase) => {
-      // formats inputs
-      if (
-        typeof testcase.input === "string" ||
-        testcase.input instanceof String
-      ) {
-        // formats inputs
-        if (testcase.input.includes(" ")) {
-          try {
-            // Attempt to parse as a list of integers
-            testcase.input = testcase.input
-              .split(" ")
-              .map((x) => parseInt(x.trim()));
-          } catch (error) {
-            console.error(error);
-          }
-        }
-      } else if (Array.isArray(testcase.input)) {
-        // Input is already an array, no need to parse
-      } else {
-        // Input is neither a string nor an array, parse as integer
-        testcase.input = parseInt(testcase.input);
-      }
-
-      // Check if output is a string
-      if (
-        typeof testcase.output === "string" ||
-        testcase.output instanceof String
-      ) {
-        // formats outputs
-        if (testcase.output.includes(" ")) {
-          try {
-            // Attempt to parse as a list of integers
-            testcase.output = testcase.output
-              .split(" ")
-              .map((x) => parseInt(x.trim()));
-          } catch (error) {
-            console.error(error);
-          }
-        }
-      } else if (Array.isArray(testcase.output)) {
-        // Output is already an array, no need to parse
-      } else {
-        // Output is neither a string nor an array, parse as integer
-        testcase.output = parseInt(testcase.output);
-      }
-
-      return testcase; // Return the modified testcase
-    });
-
-    return formattedTestCases;
-  };
-
   const onSubmit = (e) => {
     e.preventDefault();
     // For the first test case and the last one
     if (testData.input.length > 0 && testData.output.length > 0)
       testcases.push(testData);
-
-    formatTestCases(testcases);
+    if (testcases.length == 0) {
+      toast.error("At least one test case is required");
+      return;
+    }
+    // formatTestCases(testcases);
     console.log(testcases);
     const testdata = {
       title,
