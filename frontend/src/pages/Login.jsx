@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, googleLogin, reset } from "../slices/auth/authSlice";
 import Spinner from "../components/Spinner";
+import { FaGoogle } from "react-icons/fa";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -33,7 +34,15 @@ function Login() {
     }
 
     dispatch(reset());
-  }, [isResetSuccessful, user, isError, isSuccess, message, navigate, dispatch]);
+  }, [
+    isResetSuccessful,
+    user,
+    isError,
+    isSuccess,
+    message,
+    navigate,
+    dispatch,
+  ]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -45,10 +54,10 @@ function Login() {
   const resetPassword = (e) => {
     navigate(`/resetpassword`);
   };
-  
-  const googlelogin = (e) =>{
+
+  const googlelogin = (e) => {
     dispatch(googleLogin());
-  }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -60,7 +69,7 @@ function Login() {
 
     dispatch(login(userData));
   };
-  
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -99,21 +108,30 @@ function Login() {
             />
           </div>
 
-          <div className="form-group">
-            <button type="submit" id="login" className="btn btn-block">
-              Log in
-            </button>
-            <button id="login" className="btn btn-block" onClick={googlelogin}>
-              Login with google
-            </button>
-            <button
-              id="login"
-              className="btn btn-block"
-              onClick={resetPassword}
-            >
-              Forgot Password?
-            </button>
-          </div>
+          <ul id="login-buttons">
+            <li>
+              <button
+                type="submit"
+                className="btn"
+              >
+                Login
+              </button>
+            </li>
+            <li>
+              <button className="btn" onClick={googlelogin}>
+                Login with Google
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="btn"
+                onClick={resetPassword}
+              >
+                Forgot Password?
+              </button>
+            </li>
+          </ul>
         </form>
       </section>
     </>

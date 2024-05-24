@@ -181,7 +181,7 @@ function ProblemForm() {
         <h1>
           <FaCode /> Add Problem
         </h1>
-        <p>Add details of the new problem</p>
+        <p>Add the details of the new problem</p>
       </section>
 
       <section className="form">
@@ -220,28 +220,35 @@ function ProblemForm() {
             />
           </div>
           <div className="form-group" id="testCases"></div>
-          <div className="form-group">
-            <button
-              type="button"
-              id="register"
-              className="btn btn-block"
-              onClick={AddTestCase}
-            >
-              Add testcase
-            </button>
-            <button
-              type="button"
-              id="removeTestCase"
-              className="btn btn-block"
-              style={{ display: "none" }}
-              onClick={removeTestCase}
-            >
-              Remove last testcase
-            </button>
-            <button type="submit" id="register" className="btn btn-block">
-              Create Problem
-            </button>
-          </div>
+
+          <ul id="new-problem-buttons">
+            <li>
+              <button
+                type="button"
+                // id="register"
+                className="btn"
+                onClick={AddTestCase}
+              >
+                Add testcase
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                id="removeTestCase"
+                className="btn"
+                style={{ display: "none" }}
+                onClick={removeTestCase}
+              >
+                Remove last testcase
+              </button>
+            </li>
+            <li>
+              <button type="submit" className="btn">
+                Create Problem
+              </button>
+            </li>
+          </ul>
         </form>
       </section>
     </>

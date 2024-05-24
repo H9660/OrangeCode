@@ -39,8 +39,7 @@ const updateProblem = async (title) => {
 const runCode = async (runData) => {
   try {
     const response = await axios.post(API_URL + "/run", runData);
-    if (response.data.error != undefined) return response.data.error;
-    else return response.data.output;
+    return response.data.output;
   } catch (err) {
     console.log(err);
   }

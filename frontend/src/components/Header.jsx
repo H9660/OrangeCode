@@ -23,7 +23,7 @@ function Header() {
       <div className="logo">
         <Link to="/">OrangeCode</Link>
       </div>
-      <ul>
+      <ul id="problem-button">
         <li>
           <Link
             to="/problems"
@@ -36,27 +36,31 @@ function Header() {
         </li>
       </ul>
 
-      <ul>
+      <ul id="user-buttons">
         {user ? (
-          <li>
-            <button className="btn" onClick={showProfile}>
-              <FaUser /> {user.name}
-            </button>
-            <button className="btn" onClick={onLogout}>
-              <FaSignOutAlt /> Logout
-            </button>
-          </li>
+          <>
+            <li>
+              <button className="btn" onClick={showProfile}>
+                <FaUser /> {user.name}
+              </button>
+            </li>
+            <li>
+              <button className="btn" onClick={onLogout}>
+                <FaSignOutAlt /> Logout
+              </button>
+            </li>
+          </>
         ) : (
           <>
             <li>
-              <Link to="/login">
+              <button className="btn" onClick={()=>{navigate('/login')}}>
                 <FaSignInAlt /> Login
-              </Link>
+              </button>
             </li>
             <li>
-              <Link to="/register">
+              <button className="btn" onClick={()=>{navigate('/register')}}>
                 <FaUser /> Sign Up
-              </Link>
+              </button>
             </li>
           </>
         )}
