@@ -42,58 +42,20 @@ h3 {
   border-radius: 30px;
   margin: 0 auto;
   text-align: center;
-  z-index: -1;
 }
 
+/* This section deals with the header **************************************** */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 2px dotted #000;
   margin-bottom: 60px;
   background-color: #ff5722;
-  /* position: sticky; */
-}
-
-.header ul {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   font-size: 1.2rem;
   font-family: Open Sans;
-  font-weight: bold;
-}
-
-.header ul:first-child li {
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.header ul li {
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.header ul li a {
-  display: flex;
-  align-items: center;
-}
-
-.header ul li a:hover {
-  color: #777;
-}
-
-.header ul li a svg {
-  margin-right: 5px;
-}
-
-.heading {
-  font-size: 1.6rem;
   font-weight: 700;
-  margin-bottom: 50px;
-  padding: 0 20px;
-  color: #ff5722;
 }
 
 .logo {
@@ -104,18 +66,85 @@ h3 {
   z-index: 1000;
 }
 
-.goals {
-  /* display: inline-block; */
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+#problem-button {
+  margin-left: 90px;
 }
 
-.goal {
-  background-color: #f4f4f4;
-  margin: 10px 0;
-  padding: 20px 25px 10px;
+#user-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+#user-buttons button {
+  margin: 0 10px;
+  border-radius: 10px;
+}
+
+.header ul li a:hover {
+  color: #777;
+}
+
+.header ul li a svg {
+  margin-right: 5px;
+}
+/* ********************************************************** */
+
+/* This section deals with the dashboard and problem bars************************************* */
+.heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 50px;
+  padding: 0 20px;
+  color: #ff5722;
+}
+.content {
+  width: 100%; /* Set the container width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar {
+  padding: 20px;
+  width: 70%;
   position: relative;
-  word-wrap: break-word;
+  background-color: #ff5722; /* Set the background color */
+  border-radius: 20px; /* Create curved corners */
+  margin: 20px; /* Add gap between bars */
+  text-align: left;
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.1s ease-in;
+}
+
+.bar ul {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.bar:hover{
+  cursor: pointer;
+  width: 71%;
+}
+.bar ul > li {
+  margin: 5px;
+}
+
+.bar ul > div > h1 {
+  color: #ff5722;
+  background-color: #000;
+  border: 2px solid #000;
+  padding: 0 10px;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+.delete-button {
+  cursor: pointer;
+  background-color: #ff5722;
+  border: none;
 }
 
 .add-btn {
@@ -127,16 +156,69 @@ h3 {
   background: black;
   margin-top: 30px;
 }
+/* ***************************************************** */
 
-.goal .close {
-  position: relative;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  border: none;
-  background: none;
+/* This section is for the problem creation form */
+#new-problem-buttons {
+  display: flex;
+  justify-content: space-between;
+  /* margin-top: 20px; */
 }
 
+#new-problem-buttons li {
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #ff5722;
+}
+/* ***************************************** */
+
+/* This is for the login page **************************/
+#login-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+#login-buttons li > button {
+  padding: 5px 30px;
+  border-radius: 10px;
+  border: 2px solid #ff5722;
+}
+/* ********************************************** */
+
+/* This is for the Register page */
+#register-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+#register-buttons li > button {
+  padding: 5px 38px;
+  border-radius: 10px;
+  border: 2px solid #ff5722;
+}
+#AdminText {
+  color: #000;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+/* ********************************************** */
+
+/* Password Reset ***********************************/
+.password-reset {
+  margin: auto;
+  position: relative;
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background: #000;
+  color: #ff5722;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* ************************************ */
 .form {
   width: 30%;
   margin: 20px auto;
@@ -144,36 +226,6 @@ h3 {
   border-radius: 30px;
   padding: 30px;
   background-color: #ff5722;
-}
-.content {
-  width: 100%; /* Set the container width */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.bar {
-  padding: 20px;
-  height: auto;
-  width: auto;
-  position: relative;
-  background-color: #ff5722; /* Set the background color */
-  border-radius: 20px; /* Create curved corners */
-  margin: 20px; /* Add gap between bars */
-}
-
-.bar-content {
-  position: relative; /* Make the container position relative */
-}
-
-.close {
-  position: absolute; /* Position the close button relative to its container */
-  top: -20px; /* Adjust top position as needed */
-  right: -20px; /* Adjust right position as needed */
-  width: 20px;
-  border-radius: 20px;
-  background-color: black;
-  color: white;
 }
 
 .form-group {
@@ -184,9 +236,9 @@ h3 {
 #adminCheckbox {
   width: 16px; /* Adjust as needed */
   height: 16px; /* Adjust as needed */
-  margin-right: 5px;
-  margin-left: 5px;
-  margin-top: 3px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .form-group input,
@@ -211,24 +263,6 @@ h3 {
 .form-group label {
   margin-bottom: 10px;
   color: #000;
-}
-
-#login {
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  border-radius: 30px;
-}
-
-#register {
-  text-align: center;
-  display: block;
-  margin: auto;
-  margin-left: 40px;
-  width: 100px;
-  margin-left: 120px;
-  align-items: flex-end;
-  border-radius: 30px;
 }
 
 .btn {
@@ -322,7 +356,8 @@ h3 {
   justify-content: space-between;
 }
 
-#langauge-select,#theme-select {
+#langauge-select,
+#theme-select {
   font-size: 1rem;
   font-weight: 700;
   margin: auto;
@@ -354,7 +389,9 @@ h3 {
 #success-solve,
 #failure-solve,
 #compiler-error,
-#codepad,#output {
+#codepad,
+#output,
+#input {
   overflow: auto;
   background-color: black;
   position: relative;
@@ -377,7 +414,7 @@ h3 {
   height: 40vh;
 }
 
-#output,#input{
+#output {
   margin-top: 10px;
   resize: none;
   height: 12vh;
@@ -385,11 +422,25 @@ h3 {
   flex-direction: column;
 }
 
-#input-output{
+#input {
+  margin-top: 10px;
+}
+
+#input-output {
   display: flex;
 }
 
-#compiler-error,
+#accepted-message {
+  color: lightgreen;
+  font-weight: bold;
+}
+
+#wrong-answer {
+  color: red;
+  font-weight: bold;
+}
+
+# #compiler-error,
 #success-solve,
 #failure-solve,
 #problem-status {
@@ -400,10 +451,9 @@ h3 {
 #navigate-buttons {
   /* Set the line height for better readability */
   overflow: hidden;
+  flex-direction: column;
   display: flex; /* Aligns children (li) in a row */
-  justify-content: center; /* Centers the list items horizontally */
   align-items: center; /* Centers the list items vertically if needed */
-  list-style: none; /* Removes default list bullets */
   padding: 0; /* Removes default padding */
   height: 30vh; /* Full height to enable vertical centering */
   margin: 40px auto; /* Removes default margin and centers the ul horizontally */
@@ -421,11 +471,11 @@ h3 {
 
 #problem-specs > li {
   position: relative;
-  width: 50%; /* Width of each box */
+  width: 70%; /* Width of each box */
   height: 100%; /* Height of each box */
   display: flex; /* Enables flexbox within each li */
   justify-content: center; /* Centers content horizontally within each li */
-  align-items: center; /* Centers content vertically within each li */
+  align-items: left; /* Centers content vertically within each li */
   border: 2px dotted #ff5722; /* Adds a border around each li */
   border-radius: 20px;
   box-sizing: border-box; /* Includes padding and border in the element's total width and height */
@@ -474,6 +524,14 @@ h3 {
   font-weight: 1000;
 }
 
+.testcase-input,
+.testcase-output {
+  width: 50%;
+  height: 100px;
+  display: block; /* Changed from flex to block for proper rendering */
+  resize: vertical; /* Allows only vertical resizing */
+  overflow: auto;
+}
 #exclaim {
   margin-top: 13px;
 }
@@ -501,21 +559,23 @@ h3 {
 }
 
 @media (max-width: 800px) {
- #editor,#problem{
-  height: 1000px;
- }
+  #editor,
+  #problem {
+    height: 1000px;
+  }
 }
 
-@media (min-width: 801px){
-  #editor, #problem{
+@media (min-width: 801px) {
+  #editor,
+  #problem {
     height: 150%;
   }
 
-  #problem-specs{
+  #problem-specs {
     height: 50vh;
   }
 
-  #output{
+  #output {
     height: 30vh;
   }
 }

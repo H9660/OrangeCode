@@ -72,7 +72,6 @@ const CodeEditor = ({ title: title }) => {
       return;
     }
 
-    console.log(localStorage.getItem("user"));
     if (localStorage.getItem("user") == null) {
       toast.error("Please login to submit");
       return;
@@ -141,7 +140,7 @@ const CodeEditor = ({ title: title }) => {
       />
       <div id="input-output">
         <textarea
-          id="output"
+          id="input"
           defaultValue={input}
           onChange={updateInput}
           placeholder="Enter you input here..."

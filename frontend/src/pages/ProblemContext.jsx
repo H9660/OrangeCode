@@ -36,7 +36,7 @@ function ProblemContext({ title: title }) {
             <ul id="problem-heading">
               <li>{problem.title}</li>
               <ul>
-                <li>Hard</li>
+                <li>{problem.difficulty}</li>
                 <li>✔Solved</li>
               </ul>
             </ul>
@@ -70,7 +70,7 @@ function ProblemContext({ title: title }) {
                 <ul id="problem-specs">
                   {problem.testcases.length > 0 ? (
                     <li>
-                    Input: {problem.testcases[0].input}
+                      Input: {problem.testcases[0].input}
                       <br></br>
                       Output: {problem.testcases[0].output}
                     </li>
@@ -88,7 +88,11 @@ function ProblemContext({ title: title }) {
                     <div></div>
                   )}
 
-                  <li>{problem.constraints}</li>
+                  {problem.constrants ? (
+                    <li>{problem.constraints}</li>
+                  ) : (
+                    <li>No constraints on input</li>
+                  )}
                 </ul>
               </>
             )}

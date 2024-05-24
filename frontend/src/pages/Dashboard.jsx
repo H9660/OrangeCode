@@ -39,7 +39,7 @@ function Dashboard() {
         {
           <>
             {problems.map((problem) => (
-              <ProblemBar key={problem._id} problem={problem} />
+              <ProblemBar problem={problem} />
             ))}
           </>
         }

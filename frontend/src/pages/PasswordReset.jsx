@@ -35,7 +35,6 @@ function Login() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     const resetData = {
       email: email,
       password: password,
@@ -84,7 +83,7 @@ function Login() {
           </div>
 
           <div className="form-group">
-            <button type="submit" id="login" className="btn btn-block">
+            <button type="submit" className="password-reset">
               Reset Password
             </button>
           </div>

@@ -131,20 +131,30 @@ function Register() {
               onChange={onChange}
             />
           </div>
-          <div className="form-group">
-            <input
-              type="checkbox"
-              id="adminCheckbox"
-              name="isAdmin"
-              onChange={toggleIsAdmin}
-            ></input>
-            <label id="AdminText" for="adminCheckbox">
-              Admin?
-            </label>
-            <button id="register" type="submit" className="btn btn-block">
-              Register
-            </button>
-          </div>
+          
+          <ul id="register-buttons">
+            <li>
+              <input
+                type="checkbox"
+                id="adminCheckbox"
+                name="isAdmin"
+                onChange={toggleIsAdmin}
+              ></input>
+              <label id="AdminText" for="adminCheckbox">
+                Admin?
+              </label>
+            </li>
+             <li>
+              <button type="button" className="btn" onClick={()=>{navigate("/login")}}>
+                Sign In
+              </button>
+            </li>
+            <li>
+              <button type="submit" className="btn">
+                Register
+              </button>
+            </li>
+          </ul>
         </form>
       </section>
     </>

@@ -5,7 +5,6 @@ import { getUserStats, reset } from "../slices/stats/statSlice";
 function Profile() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  // console.log(user);
   // This useSelector is used for js but the useapp slector is used for TS
   const { stats, isLoading, isError, message } = useSelector(
     (state) => state.userStats // This is a reducer

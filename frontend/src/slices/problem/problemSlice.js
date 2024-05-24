@@ -119,6 +119,7 @@ export const runCode = createAsyncThunk(
   "problem/run",
   async (runData, thunkAPI) => {
     try {
+      console.log(runData.input)
       const response = await problemService.runCode(runData);
       return response
     } catch (error) {
