@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const passport = require("passport");
+const cors = require("cors")
 const session = require("express-session");
 const { errorHandler } = require("./middleware/errorMiddleware");
 const dotenv = require("dotenv").config();
