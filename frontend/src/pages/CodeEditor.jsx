@@ -83,22 +83,21 @@ const CodeEditor = ({ title: title }) => {
       title: title,
     };
     dispatch(submitCode(submitData));
+    console.log(result);
+    if (result == "Accepted" && !user.solvedProblems.includes(title)) {
+      const email = user.email;
+      const updateData = {
+        email,
+        title,
+      };
+      dispatch(updateSolvedProblems(updateData));
+    }
   };
 
   useEffect(() => {
     console.log(result);
-    // console.log(user.solvedProblems)
-    // console.log(title)
-    if (result == "Accepted" && !user.solvedProblems.includes(title)) {
-      const email = user.email
-      const updateData = {
-        email,
-        title
-      }
-      dispatch(updateSolvedProblems(updateData));
-    }
     setVerdict(result);
-  }, [result]);
+  }, [dispatch, result]);
 
   return (
     <div id="editor">
