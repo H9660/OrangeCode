@@ -6,7 +6,6 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
   user: user ? user : null,
-  // This is for the spinner functionality
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -15,10 +14,10 @@ const initialState = {
 };
 
 // Register user
-// This is an action creator 
+// This is an action creator
 export const register = createAsyncThunk(
   // This is an action type. This will trigger the slice with the name auth.
-  "auth/register", 
+  "auth/register",
   // logic of the action creator
   async (user, thunkAPI) => {
     try {
@@ -39,51 +38,80 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(
   // name of an action
   "auth/login",
-  // logic of the action creator 
+  // logic of the action creator
   async (user, thunkAPI) => {
-  try {
-    return await authService.login(user);
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+    try {
+      const usera = await authService.login(user);
+      console.log(usera);
+      return user;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const googleLogin = createAsyncThunk(
   // name of an action
   "auth/googleLogin",
-  // logic of the action creator 
+  // logic of the action creator
   async (userEmail, thunkAPI) => {
-  try {
-    return await authService.googleLogin();
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+    try {
+      return await authService.googleLogin();
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const resetPassword= createAsyncThunk(
+export const resetPassword = createAsyncThunk(
   // name of an action
   "auth/resetPassword",
-  // logic of the action creator 
+  // logic of the action creator
   async (resetData, thunkAPI) => {
-  try {
-    return await authService.resetPassword(resetData);
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+    try {
+      return await authService.resetPassword(resetData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
+export const updateSolvedProblems = createAsyncThunk(
+  // name of an action
+  "auth/updateSolvedProblems",
+  // logic of the action creator
+  async (updateData, thunkAPI) => {
+    try {
+      return await authService.updateSolvedProblems(updateData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
@@ -99,12 +127,12 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
-      state.isResetSuccessful= false;
+      state.isResetSuccessful = false;
       state.message = "";
     },
-  }, 
+  },
   extraReducers: (builder) => {
-    // This is to handle the async nature of the asyncThunk function. 
+    // This is to handle the async nature of the asyncThunk function.
     // The objects pending, fulfilled and rejected are indeed action objects
     builder
       .addCase(register.pending, (state) => {
@@ -118,7 +146,7 @@ export const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;  // This will be the payload that would be set
+        state.message = action.payload; // This will be the payload that would be set
         state.user = null;
       })
       .addCase(login.pending, (state) => {
@@ -136,7 +164,7 @@ export const authSlice = createSlice({
         state.message = action.payload;
         state.user = null;
       })
-       .addCase(googleLogin.pending, (state) => {
+      .addCase(googleLogin.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(googleLogin.fulfilled, (state) => {
@@ -151,7 +179,7 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isResetSuccessful = false;
         state.message = action.payload;
-        console.log(state.message)
+        console.log(state.message);
         state.user = null;
       })
       .addCase(resetPassword.pending, (state) => {
@@ -172,6 +200,20 @@ export const authSlice = createSlice({
         state.user = null;
       })
       .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+      })
+      .addCase(updateSolvedProblems.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateSolvedProblems.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(updateSolvedProblems.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
         state.user = null;
       });
   },

@@ -40,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      solvedProblems: user.solvedProblems,
       token: generateToken(user._id),
     });
   } else {
@@ -56,13 +57,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Check for user email
   const user = await User.findOne({ email });
-
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
       _id: user.id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      solvedProblems: user.solvedProblems,
       token: generateToken(user._id),
     });
   } else {
@@ -85,7 +86,7 @@ const resetPassword = asyncHandler(async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const updatedUser = await User.findOneAndUpdate(
-    {email: email},
+    { email: email },
     { password: hashedPassword },
     { new: true }
   );
@@ -109,6 +110,40 @@ const resetPassword = asyncHandler(async (req, res) => {
 const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
+
+const updateSolvedProblems = asyncHandler(async (req, res) => {
+  const { email, title } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    console.log(user);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    user.solvedProblems.push(title);
+    const updatedUser = await User.findOneAndUpdate(
+      { email: email },
+      { solvedProblems: user.solvedProblems },
+      { new: true }
+    );
+
+    console.log(updatedUser)
+    if (updatedUser) {
+      res.status(201).json({
+        _id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        solvedProblems: updatedUser.solvedProblems,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid user data");
+    }
+  } catch (error) {
+    console.error("Error updating solved problems:", error);
+  }
+});
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -121,4 +156,5 @@ module.exports = {
   loginUser,
   getMe,
   resetPassword,
+  updateSolvedProblems,
 };

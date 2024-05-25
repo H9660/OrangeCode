@@ -6,7 +6,6 @@ const defaultProblem = {
   statement: "",
   testcases: [],
   constraints: "",
-  outputs: []
 };
 const initialState = {
   problem: { ...defaultProblem },
@@ -15,11 +14,10 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
-  outputs: [],
   result: "",
   code: "",
   language: "",
-  input: ""
+  input: "",
 };
 
 // Create new problem
@@ -119,9 +117,9 @@ export const runCode = createAsyncThunk(
   "problem/run",
   async (runData, thunkAPI) => {
     try {
-      console.log(runData.input)
+      console.log(runData.input);
       const response = await problemService.runCode(runData);
-      return response
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -139,7 +137,7 @@ export const submitCode = createAsyncThunk(
   async (submitData, thunkAPI) => {
     try {
       const response = await problemService.submitCode(submitData);
-      return response
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -242,7 +240,7 @@ export const problemSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-       .addCase(submitCode.pending, (state, action) => {
+      .addCase(submitCode.pending, (state, action) => {
         state.isLoading = true;
       })
       .addCase(submitCode.fulfilled, (state, action) => {
