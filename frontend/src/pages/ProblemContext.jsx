@@ -16,7 +16,7 @@ function ProblemContext({ title: title }) {
   const { problem, isLoading, isError, message } = useSelector(
     (state) => state.problems
   );
-
+  console.log(problem)
   useEffect(() => {
     if (isError) {
       toast.error(message);

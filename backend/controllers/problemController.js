@@ -6,6 +6,7 @@ const Problem = require("../models/problemModel");
 // @access  Private
 const getProblem = asyncHandler(async (req, res) => {
   const problem = await Problem.findOne({ title: req.params.title });
+  console.log(problem)
   if (!problem) {
     res.status(400);
     throw new Error("Problem not found");
@@ -26,7 +27,7 @@ const setProblem = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Please add all the required fields");
   }
-
+  req.body.title = req.body.title.trimEnd()
   console.log(req.body.testcases);
   const problem = await Problem.create({
     title: req.body.title,

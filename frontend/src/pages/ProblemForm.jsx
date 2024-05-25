@@ -158,15 +158,14 @@ function ProblemForm() {
       toast.error("At least one test case is required");
       return;
     }
-    // formatTestCases(testcases);
-    console.log(testcases);
+
     const testdata = {
       title,
       statement,
       testcases,
       constraints,
     };
-
+    console.log(testdata)
     dispatch(createProblem(testdata));
     navigate("/problems");
   };
