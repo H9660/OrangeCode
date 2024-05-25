@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { runCode, submitCode } from "../slices/problem/problemSlice";
-
+import { runCode, submitCode, reset } from "../slices/problem/problemSlice";
+import { updateSolvedProblems } from "../slices/auth/authSlice";
 const CodeEditor = ({ title: title }) => {
   const [code, setCode] = useState(localStorage.getItem("code") || "");
   const [language, setLanguage] = useState(
     localStorage.getItem("language") || "cpp"
   );
   const [theme, setTheme] = useState("vs-dark");
-  const [output, setOutput] = useState([]);
-  const [runoutput, setRunOutput] = useState();
+  const [verdict, setVerdict] = useState("");
   const [input, setInput] = useState(localStorage.getItem("input") || "");
   const languages = ["cpp", "Java", "Python", "Javascript", "Ruby"];
   const themes = [
@@ -26,7 +25,8 @@ const CodeEditor = ({ title: title }) => {
     "github-light",
   ];
   const dispatch = useDispatch();
-  const { outputs, result } = useSelector((state) => state.problems);
+  const { result } = useSelector((state) => state.problems);
+  const { user } = useSelector((state) => state.auth);
   const updateLanguage = (event) => {
     setLanguage(event.target.value);
     localStorage.setItem("language", event.target.value);
@@ -45,8 +45,7 @@ const CodeEditor = ({ title: title }) => {
   };
   const resetCode = () => {
     setCode("");
-    setOutput("");
-    setRunOutput("");
+    setVerdict("");
   };
 
   const runcode = (e) => {
@@ -87,9 +86,19 @@ const CodeEditor = ({ title: title }) => {
   };
 
   useEffect(() => {
-    setOutput(outputs);
-    setRunOutput(result);
-  }, [outputs, result]);
+    console.log(result);
+    // console.log(user.solvedProblems)
+    // console.log(title)
+    if (result == "Accepted" && !user.solvedProblems.includes(title)) {
+      const email = user.email
+      const updateData = {
+        email,
+        title
+      }
+      dispatch(updateSolvedProblems(updateData));
+    }
+    setVerdict(result);
+  }, [result]);
 
   return (
     <div id="editor">
@@ -147,8 +156,7 @@ const CodeEditor = ({ title: title }) => {
         ></textarea>
         <div id="output">
           <h3>Output/Error:</h3>
-          {runoutput && <pre>{runoutput}</pre>}
-          {outputs && outputs.forEach((output) => <pre>{output}</pre>)}
+          {verdict && <pre>{verdict}</pre>}
         </div>
       </div>
       <div id="code-reset" onClick={resetCode}>

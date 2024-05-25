@@ -8,7 +8,6 @@ const register = async (userData) => {
   // Here at the time of registration we need to create a stat object as well for the user
   const response = await axios.post(API_URL, userData);
   console.log(response);
-  console.log("Registered");
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
@@ -61,6 +60,15 @@ const resetPassword = async (resetData) => {
   return response.data;
 };
 
+const updateSolvedProblems = async (updatedData) => {
+  const response = await axios.put(API_URL, updatedData);
+  console.log(response.data)
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
 // Logout user
 const logout = () => {
   localStorage.removeItem("user");
@@ -73,6 +81,7 @@ const authService = {
   resetPassword,
   googleLogin,
   resetPassword,
+  updateSolvedProblems
 };
 
 export default authService;
