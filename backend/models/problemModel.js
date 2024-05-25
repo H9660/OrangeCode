@@ -24,6 +24,7 @@ const problemSchema = mongoose.Schema(
 
     constraints: {
       type: String,
+      default: ""
     },
   },
   {

@@ -13,7 +13,7 @@ function Dashboard() {
   const { problems, isLoading, isError, message } = useSelector(
     (state) => state.problems // This is a reducer
   );
-
+  console.log(problems)
   useEffect(() => {
     if (isError) {
       console.log(message);
