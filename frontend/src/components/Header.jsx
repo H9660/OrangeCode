@@ -7,7 +7,6 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-
   const showProfile = () => {
     navigate(`/${user.name}`);
   };

@@ -41,9 +41,8 @@ export const login = createAsyncThunk(
   // logic of the action creator
   async (user, thunkAPI) => {
     try {
-      const usera = await authService.login(user);
-      console.log(usera);
-      return user;
+      return await authService.login(user);
+    
     } catch (error) {
       const message =
         (error.response &&
