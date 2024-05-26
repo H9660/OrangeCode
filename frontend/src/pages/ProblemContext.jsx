@@ -6,7 +6,7 @@ import CodeEditor from "./CodeEditor";
 import { getProblem } from "../slices/problem/problemSlice";
 import { FaExclamationCircle } from "react-icons/fa";
 
-function ProblemContext({ title: title }) {
+function ProblemContext(title) {
   const solveSuccess = false;
   const compilerError = false;
   const failure = false;
@@ -22,7 +22,7 @@ function ProblemContext({ title: title }) {
       toast.error(message);
     }
     dispatch(getProblem(title));
-  }, [dispatch, isError]);
+  }, [dispatch, isError, title, message]);
 
   if (isLoading) {
     return <Spinner />;
