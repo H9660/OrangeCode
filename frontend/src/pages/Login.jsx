@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, googleLogin, reset } from "../slices/auth/authSlice";
 import Spinner from "../components/Spinner";
-import { FaGoogle } from "react-icons/fa";
 
 function Login() {
   const [formData, setFormData] = useState({

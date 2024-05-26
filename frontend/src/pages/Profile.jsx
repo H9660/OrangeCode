@@ -1,6 +1,4 @@
 import { useSelector } from "react-redux";
-import Spinner from "../components/Spinner";
-import { useEffect } from "react";
 function Profile() {
   const { user } = useSelector((state) => state.auth);
   console.log(user);

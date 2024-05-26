@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { runCode, submitCode, reset } from "../slices/problem/problemSlice";
+import { runCode, submitCode } from "../slices/problem/problemSlice";
 import { updateSolvedProblems } from "../slices/auth/authSlice";
 const CodeEditor = ({ title: title }) => {
   const [code, setCode] = useState(localStorage.getItem("code") || "");
@@ -81,10 +81,10 @@ const CodeEditor = ({ title: title }) => {
       code: code,
       language: language,
       title: title,
-    };
+  };
     dispatch(submitCode(submitData));
     console.log(result);
-    if (result == "Accepted" && !user.solvedProblems.includes(title)) {
+    if (result === "Accepted" && !user.solvedProblems.includes(title)) {
       const email = user.email;
       const updateData = {
         email,
