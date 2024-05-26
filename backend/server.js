@@ -39,6 +39,7 @@ app.use("/api/problems", require("./routes/problemRoutes"));
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
+  // Here we are making sure that the index.html file is passed in the production env 
   app.get("*", (req, res) =>
     res.sendFile(
       path.resolve(__dirname, "../", "frontend", "build", "index.html")
