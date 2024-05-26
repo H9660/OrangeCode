@@ -46,7 +46,6 @@ app.use("/api/problems", require("./routes/problemRoutes"));
 // } else {
 //   app.get("/", (req, res) => res.send("Please set to production"));
 // }
-=======
 
 app.use(errorHandler);
 
