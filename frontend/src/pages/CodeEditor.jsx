@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { runCode, submitCode } from "../slices/problem/problemSlice";
 import { updateSolvedProblems } from "../slices/auth/authSlice";
-const CodeEditor = ({ title: title }) => {
+const CodeEditor = (title) => {
   const [code, setCode] = useState(localStorage.getItem("code") || "");
   const [language, setLanguage] = useState(
     localStorage.getItem("language") || "cpp"
