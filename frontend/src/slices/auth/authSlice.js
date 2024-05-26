@@ -122,6 +122,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     // This reset is an action creator that the reducer is performing on the state
+    // We are not resetting the user as we need to persist the userf
     reset: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
