@@ -75,14 +75,13 @@ function ProblemForm() {
     const testCasesDiv = document.getElementById("testCases");
     if (
       testCasesDiv.children.length > 0 &&
-      (testData.input.length == 0 || testData.output.length == 0)
+      (testData.input.length === 0 || testData.output.length === 0)
     ) {
       toast.error("Please enter all the test fields");
       return;
     }
     resetTestData();
     // Get the reference to the testCases div
-    const { input, output } = testData;
     // Create a container div for the entire set of inputs
     const containerDiv = document.createElement("div");
 

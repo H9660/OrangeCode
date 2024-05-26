@@ -80,7 +80,6 @@ const authService = {
   login,
   resetPassword,
   googleLogin,
-  resetPassword,
   updateSolvedProblems
 };
 

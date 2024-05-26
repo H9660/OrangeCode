@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ProblemBar from "../components/ProblemBar";
 import Spinner from "../components/Spinner";
-import { getProblems, createProblem } from "../slices/problem/problemSlice";
+import { getProblems } from "../slices/problem/problemSlice";
 function Dashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ function Dashboard() {
         }
       </section>
 
-      {user && user.isAdmin == true && (
+      {user && user.isAdmin === true && (
         <button className="add-btn" onClick={createProblem}>
           Add Problem
         </button>

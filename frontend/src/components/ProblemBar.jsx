@@ -18,7 +18,7 @@ function ProblemBar({ problem }) {
           <div>
             <h1>Easy</h1>
           </div>
-          {user && user.isAdmin == true && (
+          {user && user.isAdmin === true && (
             <>
               <li>
                 <button

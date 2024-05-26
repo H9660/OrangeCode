@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import CodeEditor from "./CodeEditor";
-import { getProblem, submitCode } from "../slices/problem/problemSlice";
+import { getProblem } from "../slices/problem/problemSlice";
 import { FaExclamationCircle } from "react-icons/fa";
 
 function ProblemContext({ title: title }) {
