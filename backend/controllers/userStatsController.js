@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const UserStats = require("../models/userStatsModel");
 
-// @desc    Get goals
-// @route   GET /api/goals
+// @desc    Get 
+// @route   GET /api/stats
 // @access  Private
 const getStats = asyncHandler(async (req, res) => {
   const userStats = await UserStats.findOne({ userId: req.params.userId });
@@ -25,8 +25,8 @@ const createStats = asyncHandler(async (req, res) => {
   if (stats) res.status(200).json(stats);
 });
 
-// @desc    Update goal
-// @route   PUT /api/goals/:id
+// @desc    Update stats
+// @route   PUT /api/stats/:id
 // @access  Private
 const updateStats = asyncHandler(async (req, res) => {
   try {
