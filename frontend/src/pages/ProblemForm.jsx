@@ -153,7 +153,7 @@ function ProblemForm() {
     // For the first test case and the last one
     if (testData.input.length > 0 && testData.output.length > 0)
       testcases.push(testData);
-    if (testcases.length == 0) {
+    if (testcases.length === 0) {
       toast.error("At least one test case is required");
       return;
     }
