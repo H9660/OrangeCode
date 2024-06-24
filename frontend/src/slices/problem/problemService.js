@@ -9,7 +9,7 @@ const createProblem = async (problemData) => {
 
 const getProblem = async (title) => {
   try {
-    const response = await axios.get(API_URL + `${title}`);
+    const response = await axios.get(API_URL + `${title.title}`);
     if (response.data) return response.data;
   } catch (error) {
     console.error("Error occurred:", error);

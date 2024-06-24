@@ -151,7 +151,7 @@ const runCode = asyncHandler(async (req, res) => {
 
 const submitCode = asyncHandler(async (req, res) => {
   const { code, language, title } = req.body;
-  const problem = await Problem.findOne({ title: title });
+  const problem = await Problem.findOne({ title: title.title });
   const fileName = generateFileName(language);
   const headers = {
     Authorization: `Token ${process.env.GLOT_TOKEN}`,

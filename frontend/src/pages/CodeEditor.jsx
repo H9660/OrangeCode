@@ -80,7 +80,7 @@ const CodeEditor = (title) => {
     const submitData = {
       code: code,
       language: language,
-      title: title,
+      title: title.title,
   };
     dispatch(submitCode(submitData));
     console.log(result);
@@ -138,6 +138,7 @@ const CodeEditor = (title) => {
       <Editor
         height="350px"
         language={language}
+        placeholder="Write your code here..."
         name="code"
         value={code}
         theme={theme}
