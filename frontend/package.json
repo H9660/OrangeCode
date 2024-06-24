@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "http://localhost:5000",
+  "proxy": "orange-backend-etqbo44cz-h9660s-projects.vercel.app",
   "private": true,
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
